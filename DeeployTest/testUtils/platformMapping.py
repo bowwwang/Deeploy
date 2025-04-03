@@ -30,21 +30,23 @@ import onnx_graphsurgeon as gs
 from Deeploy.DeeployTypes import DeploymentPlatform, NetworkDeployer, TopologyOptimizer
 from Deeploy.MemoryLevelExtension.MemoryLevels import MemoryHierarchy, MemoryLevel
 from Deeploy.MemoryLevelExtension.NetworkDeployers.MemoryLevelDeployer import MemoryPlatform, MemoryPlatformWrapper
-from Deeploy.Targets.CortexM.Deployer import CMSISDeployer
-from Deeploy.Targets.CortexM.Platform import CMSISOptimizer, CMSISPlatform
-from Deeploy.Targets.Generic.Deployer import GenericDeployer
-from Deeploy.Targets.Generic.Platform import GenericOptimizer, GenericPlatform
-from Deeploy.Targets.MemPool.Deployer import MemPoolDeployer
-from Deeploy.Targets.MemPool.Platform import MemPoolOptimizer, MemPoolPlatform
-from Deeploy.Targets.Neureka.Deployer import NeurekaDeployer
-from Deeploy.Targets.Neureka.Platform import MemoryNeurekaPlatform, MemoryNeurekaPlatformWrapper, NeurekaOptimizer, \
+from Deeploy.Targets.CortexM.Deployer  import CMSISDeployer
+from Deeploy.Targets.CortexM.Platform  import CMSISOptimizer, CMSISPlatform
+from Deeploy.Targets.Generic.Deployer  import GenericDeployer
+from Deeploy.Targets.Generic.Platform  import GenericOptimizer, GenericPlatform
+from Deeploy.Targets.MemPool.Deployer  import MemPoolDeployer
+from Deeploy.Targets.MemPool.Platform  import MemPoolOptimizer, MemPoolPlatform
+from Deeploy.Targets.SoftHier.Deployer import SoftHierDeployer
+from Deeploy.Targets.SoftHier.Platform import SoftHierOptimizer, SoftHierPlatform
+from Deeploy.Targets.Neureka.Deployer  import NeurekaDeployer
+from Deeploy.Targets.Neureka.Platform  import MemoryNeurekaPlatform, MemoryNeurekaPlatformWrapper, NeurekaOptimizer, \
     NeurekaPlatform
 from Deeploy.Targets.PULPOpen.Deployer import PULPDeployer
 from Deeploy.Targets.PULPOpen.Platform import MemoryPULPPlatform, MemoryPULPPlatformWrapper, PULPOptimizer, PULPPlatform
 from Deeploy.Targets.Snitch.Deployer import SnitchDeployer
 from Deeploy.Targets.Snitch.Platform import SnitchOptimizer, SnitchPlatform
 
-_SIGNPROP_PLATFORMS = ["Apollo3", "Apollo4", "QEMU-ARM", "Generic", "MemPool"]
+_SIGNPROP_PLATFORMS = ["Apollo3", "Apollo4", "QEMU-ARM", "Generic", "MemPool", "SoftHier"]
 _NONSIGNPROP_PLATFORMS = ["Siracusa", "Siracusa_w_neureka", "PULPOpen", "Snitch"]
 _PLATFORMS = _SIGNPROP_PLATFORMS + _NONSIGNPROP_PLATFORMS
 
@@ -80,6 +82,9 @@ def mapPlatform(platformName: str) -> Tuple[DeploymentPlatform, bool]:
 
     elif platformName == "Snitch":
         Platform = SnitchPlatform()
+        
+    elif platformName == "SoftHier":
+        Platform = SoftHierPlatform()
 
     else:
         raise RuntimeError(f"Deployment platform {platformName} is not implemented")
@@ -145,6 +150,24 @@ def mapDeployer(platform: DeploymentPlatform,
             default_channels_first = True
 
         deployer = MemPoolDeployer(graph,
+                                   platform,
+                                   inputTypes,
+                                   loweringOptimizer,
+                                   scheduler,
+                                   name = name,
+                                   default_channels_first = default_channels_first,
+                                   deeployStateDir = deeployStateDir,
+                                   inputOffsets = inputOffsets)
+        
+    elif isinstance(platform, SoftHierPlatform):
+
+        if loweringOptimizer is None:
+            loweringOptimizer = SoftHierOptimizer
+
+        if default_channels_first is None:
+            default_channels_first = True
+
+        deployer = SoftHierDeployer(graph,
                                    platform,
                                    inputTypes,
                                    loweringOptimizer,
