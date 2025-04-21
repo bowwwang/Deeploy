@@ -35,12 +35,7 @@ if __name__ == "__main__":
                         default = 1,
                         help = 'Number of clusters\n')
     
-    parser.add_argument('--verbose',
-                        metavar = 'verbose',
-                        dest = 'verbose',
-                        type = int,
-                        default = 2,
-                        help = 'verbose\n')
+    parser.add_argument('--verbose', metavar = 'verbose', dest = 'verbose', type = int, default = 2, help = 'verbose\n')
     args = parser.parse_args()
 
     testRunner = TestRunner(platform = "SoftHier", simulator = "gvsoc", tiling = False, argument_parser = parser)
