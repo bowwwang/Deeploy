@@ -29,11 +29,11 @@ import numpy as np
 from Deeploy.DeeployTypes import ConstantBuffer, DeploymentEngine, DeploymentPlatform, NodeMapper, NodeTemplate, \
     StructBuffer, TopologyOptimizer, TransientBuffer, VariableBuffer
 from Deeploy.Targets.Generic.Bindings import BasicAddBindings
-from Deeploy.Targets.Generic.Layers   import AddLayer
-from Deeploy.Targets.Generic.Parsers  import AddParser
+from Deeploy.Targets.Generic.Layers import AddLayer
+from Deeploy.Targets.Generic.Parsers import AddParser
 # from Deeploy.Targets.Generic.TopologyOptimizationPasses.Passes import ExtractPaddingFromConvPass, \
 #     ExtractPaddingFromPoolPass, MatMulAddMergePass, MergeConstAddAndRequantPass, SplitAddPass, iGELURequantMergePass
-    
+
 # from Deeploy.Targets.SoftHier.Bindings  import SoftHierGEMMBinding_8_8_32_32
 # from Deeploy.Targets.SoftHier.Parsers   import <add parsers here>
 from Deeploy.Targets.SoftHier.Templates import AllocateTemplate, FreeTemplate
@@ -48,9 +48,7 @@ Add_Mapper = NodeMapper(AddParser(), BasicAddBindings)
 # They should always generate compiler errors to not accidentally end up in production code
 # DummyMapper = NodeMapper(DummyParser(), [DummyBinding])
 
-SoftHierlMapping = {
-    'Add': AddLayer([Add_Mapper])
-}
+SoftHierlMapping = {'Add': AddLayer([Add_Mapper])}
 
 
 class SoftHierVariableBuffer(VariableBuffer):
@@ -100,6 +98,7 @@ SoftHierOptimizer = TopologyOptimizer([
 includeList = ["DeeployBasicMath.h"]
 # includeList = ["DeeployBasicMath.h", "flex_cluster_arch.h",  "flex_dma_pattern.h", "flex_runtime.h"]
 # includeList = ["DeeployBasicMath.h", "flex_runtime.h", "flex_cluster_arch.h",  "flex_dma_pattern.h", "flex_printf.h", "flex_alloc.h"]
+
 
 class SoftHierEngine(DeploymentEngine):
 

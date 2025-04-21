@@ -54,7 +54,6 @@ class SoftHierDeployer(SignPropDeployer):
         self.inputOffsets = inputOffsets
 
         self.loweringOptimizer.passes += []
-        
         # self.loweringOptimizer.passes += [
         #     TransposeMatmulInputsPass(),
         #     NCHWtoNHWCPass(self.default_channels_first),

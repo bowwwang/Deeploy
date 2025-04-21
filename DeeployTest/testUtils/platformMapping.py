@@ -30,16 +30,16 @@ import onnx_graphsurgeon as gs
 from Deeploy.DeeployTypes import DeploymentPlatform, NetworkDeployer, TopologyOptimizer
 from Deeploy.MemoryLevelExtension.MemoryLevels import MemoryHierarchy, MemoryLevel
 from Deeploy.MemoryLevelExtension.NetworkDeployers.MemoryLevelDeployer import MemoryPlatform, MemoryPlatformWrapper
-from Deeploy.Targets.CortexM.Deployer  import CMSISDeployer
-from Deeploy.Targets.CortexM.Platform  import CMSISOptimizer, CMSISPlatform
-from Deeploy.Targets.Generic.Deployer  import GenericDeployer
-from Deeploy.Targets.Generic.Platform  import GenericOptimizer, GenericPlatform
-from Deeploy.Targets.MemPool.Deployer  import MemPoolDeployer
-from Deeploy.Targets.MemPool.Platform  import MemPoolOptimizer, MemPoolPlatform
+from Deeploy.Targets.CortexM.Deployer import CMSISDeployer
+from Deeploy.Targets.CortexM.Platform import CMSISOptimizer, CMSISPlatform
+from Deeploy.Targets.Generic.Deployer import GenericDeployer
+from Deeploy.Targets.Generic.Platform import GenericOptimizer, GenericPlatform
+from Deeploy.Targets.MemPool.Deployer import MemPoolDeployer
+from Deeploy.Targets.MemPool.Platform import MemPoolOptimizer, MemPoolPlatform
 from Deeploy.Targets.SoftHier.Deployer import SoftHierDeployer
 from Deeploy.Targets.SoftHier.Platform import SoftHierOptimizer, SoftHierPlatform
-from Deeploy.Targets.Neureka.Deployer  import NeurekaDeployer
-from Deeploy.Targets.Neureka.Platform  import MemoryNeurekaPlatform, MemoryNeurekaPlatformWrapper, NeurekaOptimizer, \
+from Deeploy.Targets.Neureka.Deployer import NeurekaDeployer
+from Deeploy.Targets.Neureka.Platform import MemoryNeurekaPlatform, MemoryNeurekaPlatformWrapper, NeurekaOptimizer, \
     NeurekaPlatform
 from Deeploy.Targets.PULPOpen.Deployer import PULPDeployer
 from Deeploy.Targets.PULPOpen.Platform import MemoryPULPPlatform, MemoryPULPPlatformWrapper, PULPOptimizer, PULPPlatform
@@ -82,7 +82,7 @@ def mapPlatform(platformName: str) -> Tuple[DeploymentPlatform, bool]:
 
     elif platformName == "Snitch":
         Platform = SnitchPlatform()
-        
+
     elif platformName == "SoftHier":
         Platform = SoftHierPlatform()
 
@@ -158,7 +158,7 @@ def mapDeployer(platform: DeploymentPlatform,
                                    default_channels_first = default_channels_first,
                                    deeployStateDir = deeployStateDir,
                                    inputOffsets = inputOffsets)
-        
+
     elif isinstance(platform, SoftHierPlatform):
 
         if loweringOptimizer is None:
@@ -168,14 +168,14 @@ def mapDeployer(platform: DeploymentPlatform,
             default_channels_first = True
 
         deployer = SoftHierDeployer(graph,
-                                   platform,
-                                   inputTypes,
-                                   loweringOptimizer,
-                                   scheduler,
-                                   name = name,
-                                   default_channels_first = default_channels_first,
-                                   deeployStateDir = deeployStateDir,
-                                   inputOffsets = inputOffsets)
+                                    platform,
+                                    inputTypes,
+                                    loweringOptimizer,
+                                    scheduler,
+                                    name = name,
+                                    default_channels_first = default_channels_first,
+                                    deeployStateDir = deeployStateDir,
+                                    inputOffsets = inputOffsets)
 
     elif isinstance(platform, GenericPlatform):
         # WIESEP: CMSIS performs add-multiply-divide and we normally do multiply-add-divide
