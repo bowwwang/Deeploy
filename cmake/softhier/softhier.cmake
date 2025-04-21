@@ -63,6 +63,10 @@ set(sync_base               1073741824  CACHE STRING "") # 0x4000_0000
 set(sync_interleave         128         CACHE STRING "") # 0x0000_0080
 set(sync_special_mem        64          CACHE STRING "") # 0x0000_0040
 
+# Default memory level
+set(default_l1              0           CACHE STRING "")
+set(default_hbm             1           CACHE STRING "")
+
 add_compile_definitions(
     DEEPLOY_SOFTHIER_PLATFORM
 )
@@ -132,4 +136,10 @@ add_compile_definitions(
     SYNC_BASE=${sync_base}
     SYNC_INTERLEAVE=${sync_interleave}
     SYNC_SPECIAL_MEM=${sync_special_mem}
+)
+
+add_compile_definitions(
+    DEFAULT_MEM=${default_hbm}
+    DEFAULT_L1=${default_l1}
+    DEFAULT_HBM=${default_hbm}
 )

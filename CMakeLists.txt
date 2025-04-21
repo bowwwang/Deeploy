@@ -110,6 +110,7 @@ if(platform STREQUAL SoftHier)
 
   # bowwang: adapted configuration from flex_cluster_arch.py
   include(${CMAKE_CURRENT_LIST_DIR}/cmake/softhier/softhier.cmake)
+  include(${CMAKE_CURRENT_LIST_DIR}/cmake/softhier/softhier_gvsoc.cmake)
 
   project(deeploy LANGUAGES C ASM)
 

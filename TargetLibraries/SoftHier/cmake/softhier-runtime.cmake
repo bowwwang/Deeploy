@@ -6,7 +6,7 @@
 # └── flex_start.s     -- customised asm script
 
 # set(SOFTHIER_SDK_HOME $ENV{SOFTHIER_SDK_HOME})
-set(SOFTHIER_SDK_HOME /gvsoc/soft_hier/flex_cluster_sdk)
+set(SOFTHIER_SDK_HOME /scratch2/bowwang/tmp_gvsoc_rebase/gvsoc/soft_hier/flex_cluster_sdk)
 set(SOFTHIER_RUNTIME_HOME ${SOFTHIER_SDK_HOME}/runtime)
 
 

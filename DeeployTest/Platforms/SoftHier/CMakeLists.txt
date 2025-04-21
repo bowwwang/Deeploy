@@ -11,4 +11,6 @@ target_link_libraries(${ProjectId} PRIVATE network deeploylib)
 # RUN WANG: Link math Lib to Generic Target
 target_link_libraries(${ProjectId} PRIVATE m)
 
+add_gvsoc_emulation(${ProjectId})
+
 link_compile_dump(${TESTNAME})
