@@ -108,10 +108,11 @@ class SoftHierEngine(DeploymentEngine):
 
 class SoftHierPlatform(DeploymentPlatform):
 
-    def __init__(self,
-                 engines = [SoftHierEngine("SoftHier")], # subject to change
-                 variableBuffer = SoftHierVariableBuffer,
-                 constantBuffer = SoftHierConstantBuffer,
-                 structBuffer = SoftHierStructBuffer,
-                 transientBuffer = SoftHierTransientBuffer):
+    def __init__(
+            self,
+            engines = [SoftHierEngine("SoftHier")], # subject to change
+            variableBuffer = SoftHierVariableBuffer,
+            constantBuffer = SoftHierConstantBuffer,
+            structBuffer = SoftHierStructBuffer,
+            transientBuffer = SoftHierTransientBuffer):
         super().__init__(engines, variableBuffer, constantBuffer, structBuffer, transientBuffer)
