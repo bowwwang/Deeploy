@@ -2,8 +2,6 @@
 #
 # File: testRunner_softhier.py
 #
-# Last edited: 03.04.2025
-#
 # Copyright (C) 2025, ETH Zurich and University of Bologna.
 #
 # Author: Bowen Wang <bowwang@iis.ee.ethz.ch> , ETH Zurich
@@ -35,6 +33,13 @@ if __name__ == "__main__":
                         type = int,
                         default = 1,
                         help = 'Number of clusters\n')
+    
+    parser.add_argument('--verbose',
+                        metavar = 'verbose',
+                        dest = 'verbose',
+                        type = int,
+                        default = 2,
+                        help = 'verbose\n')
     args = parser.parse_args()
 
     testRunner = TestRunner(platform = "SoftHier", simulator = "gvsoc", tiling = False, argument_parser = parser)
