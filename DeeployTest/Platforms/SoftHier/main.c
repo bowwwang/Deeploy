@@ -28,43 +28,43 @@ int main()
     uint32_t CID = flex_get_cluster_id();//Get cluster ID
 
     if(CID==0){ // only allow cluster 0 to work  
-        if (flex_is_dm_core()) { // allow core 0 to init network and dma
-            printf("Initializing network...\n");
+        if (flex_is_dm_core()) { // allow dm core to init network and dma
+            printf("[main.c] >>> Initializing network...\n\n");
             InitNetwork(0, 1);
 
-            printf("Allocated >>> in0: 0x%8x, in1: 0x%8x\n", DeeployNetwork_inputs[0], DeeployNetwork_inputs[1]);
-            printf("HBM       >>> in0: 0x%8x, in1: 0x%8x\n", (uint32_t)testInputVector[0], (uint32_t)testInputVector[1]);
-            printf("size      >>> in0: 0x%8x, in1: 0x%8x\n", (uint32_t)DeeployNetwork_inputs_bytes[0], (uint32_t)DeeployNetwork_inputs_bytes[1]);
+            printf("[main.c] >>> original data _in0: 0x%8x, _in1: 0x%8x\n", (uint32_t)testInputVector0, (uint32_t)testInputVector1);
+            printf("[main.c] >>> allocated mem _in0: 0x%8x, _in1: 0x%8x\n\n", (uint32_t)DeeployNetwork_inputs[0], (uint32_t)DeeployNetwork_inputs[1]);
 
             for (uint32_t buf = 0; buf < DeeployNetwork_num_inputs; buf++) {
-                void *addr = testInputVector[buf];
-                //Trigger DMA transaction: move from HBM to L1
+                // original data in HBM (placed by loader)
+                void *ori_addr = testInputVector[buf];
+
+                #if DEFAULT_MEM == DEFAULT_L1 // if allowed to use L1
+                // bowwang: Trigger DMA transaction: move from HBM to L1
                 uint64_t mask = 0x00000000ffffffff;
-                // printf("%p\n", DeeployNetwork_inputs[buf]);
-                // printf("%p\n", &DeeployNetwork_input_1);
-                uint64_t masked_addr = (uint64_t)addr & mask;
-
-                uint32_t tmp = ((uint32_t *)masked_addr)[0];
-                printf("tmp = %x\n", tmp);
-
+                uint64_t masked_addr = (uint64_t)ori_addr & mask;
                 flex_dma_async_1d(      DeeployNetwork_inputs[buf],
                                         masked_addr, 
                                         DeeployNetwork_inputs_bytes[buf]);
-                // printf("%p\n", DeeployNetwork_inputs[buf]);
-                // printf("%p\n", DeeployNetwork_input_1);
                 //Wait all DMA transaction done
                 flex_dma_async_wait_all();
-                // printf("Done - %d\n", buf);
-                // printf("out: %x, in0: %x, in1: %x\n", DeeployNetwork_output_0, DeeployNetwork_input_0, DeeployNetwork_input_1);
+
+                #else // all data stay in HBM
+                uint64_t *dst_addr = DeeployNetwork_inputs[buf];
+                // perform mem_copy with a single core
+                for (uint32_t i=0; i<(DeeployNetwork_inputs_bytes[buf]+7)/8; i++){
+                    uint64_t data = ((uint64_t *)ori_addr)[i];
+                    dst_addr[i] = data;
+                }
+                
+                #endif
             }
             
         }
         flex_intra_cluster_sync();//Cluster barrier
 
         if (flex_is_first_core()) { // allow core 0 to compute
-            printf("Running network...\r\n");
-            // printf("out: %x, in0: %x, in1: %p\n", DeeployNetwork_output_0, DeeployNetwork_input_0, DeeployNetwork_input_1);
-            // printf("out: %x, in0: %x, in1: %x\n", DeeployNetwork_output_0, DeeployNetwork_input_0, DeeployNetwork_input_1[0]);
+            printf("[main.c] >>> Running network...\n\n");
 
             RunNetwork(0, 1);
 
