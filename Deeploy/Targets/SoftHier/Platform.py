@@ -2,8 +2,6 @@
 #
 # File: SoftHierPlatform.py
 #
-# Last edited: 03.04.2025
-#
 # Copyright (C) 2025, ETH Zurich and University of Bologna.
 #
 # Author:
@@ -30,50 +28,28 @@ import numpy as np
 
 from Deeploy.DeeployTypes import ConstantBuffer, DeploymentEngine, DeploymentPlatform, NodeMapper, NodeTemplate, \
     StructBuffer, TopologyOptimizer, TransientBuffer, VariableBuffer
-from Deeploy.Targets.Generic.Bindings import BasicAddBindings, BasicConv1DBinding, BasicConv2DBindings, \
-    BasicDebugPrintBindings, BasicDivBindings, BasicDWConv1DBinding, BasicDWConv2DBinding, BasicGatherBindings, \
-    BasicGELUBindings, BasicLayerNormBindings, BasicMulBindings, BasicPad1DBindings, BasicPad2DBindings, \
-    BasicReduceMeanBindings, BasicReduceSumBindings, BasicReshapeBindings, BasicRQIntegerDivBinding, \
-    BasicRQSGELUBinding, BasicSliceBindings, BasicSoftmaxBindings, BasicTransposeBindings, DummyBinding
-from Deeploy.Targets.Generic.Layers import AddLayer, ConvLayer, DebugPrintLayer, DivLayer, GatherLayer, GELULayer, \
-    GEMMLayer, ITAMaxLayer, LayerNormLayer, MatMulLayer, MaxPoolLayer, MHSALayer, MulLayer, PadLayer, ReduceMeanLayer, \
-    ReduceSumLayer, RequantShiftLayer, ReshapeLayer, RQGEMMLayer, RQIntegerDivLayer, RQMatMulLayer, RQSiGELULayer, \
-    SliceLayer, SoftmaxLayer, TransposeLayer
-from Deeploy.Targets.Generic.Parsers import AddParser, DebugParser, DummyParser, FlattenParser, GatherParser, \
-    GELUParser, GenericConv1DParser, GenericConv2DParser, GenericDWConv1DParser, GenericDWConv2DParser, \
-    GenericGEMMParser, GenericMaxPool2DParser, IntegerDivParser, ITAMaxParser, MatMulParser, MulParser, Pad1DParser, \
-    Pad2DParser, ReduceMeanParser, ReduceSumParser, RequantShiftParser, ReshapeParser, RQGEMMParser, \
-    RQIntegerDivParser, RQMatMulParser, RQSiGELUParser, SliceParser, TransposeParser, UnsqueezeParser, \
-    iLayerNormParser, iSoftmaxParser
-from Deeploy.Targets.Generic.TopologyOptimizationPasses.Passes import ExtractPaddingFromConvPass, \
-    ExtractPaddingFromPoolPass, MatMulAddMergePass, MergeConstAddAndRequantPass, SplitAddPass, iGELURequantMergePass
+from Deeploy.Targets.Generic.Bindings import BasicAddBindings
+from Deeploy.Targets.Generic.Layers   import AddLayer
+from Deeploy.Targets.Generic.Parsers  import AddParser
+# from Deeploy.Targets.Generic.TopologyOptimizationPasses.Passes import ExtractPaddingFromConvPass, \
+#     ExtractPaddingFromPoolPass, MatMulAddMergePass, MergeConstAddAndRequantPass, SplitAddPass, iGELURequantMergePass
     
-from Deeploy.Targets.SoftHier.Bindings  import SoftHierGEMMBinding_8_8_32_32
+# from Deeploy.Targets.SoftHier.Bindings  import SoftHierGEMMBinding_8_8_32_32
 # from Deeploy.Targets.SoftHier.Parsers   import <add parsers here>
-from Deeploy.Targets.Softhier.Templates import AllocateTemplate, FreeTemplate
+from Deeploy.Targets.SoftHier.Templates import AllocateTemplate, FreeTemplate
 # from Deeploy.Targets.SoftHier.TopologyOptimizationPasses.Passes import <add Passes here>
 
 # Fallback bindings from the generic platform
-# (they support a wider range of attribute values)
-GenericConv1D_Mapper = NodeMapper(GenericConv1DParser(), [BasicConv1DBinding])
-GenericDWConv1D_Mapper = NodeMapper(GenericDWConv1DParser(), [BasicDWConv1DBinding])
-GenericConv2D_Mapper = NodeMapper(GenericConv2DParser(), BasicConv2DBindings)
-GenericDWConv2D_Mapper = NodeMapper(GenericDWConv2DParser(), [BasicDWConv2DBinding])
-
-GenericConv_Mappers = [GenericConv2D_Mapper, GenericDWConv2D_Mapper, GenericConv1D_Mapper, GenericDWConv1D_Mapper]
 
 # Basic bindings
 Add_Mapper = NodeMapper(AddParser(), BasicAddBindings)
 
-# MemPool specific bindings
-GEMM_Mapper = NodeMapper(GenericGEMMParser(), [SoftHierGEMMBinding_8_8_32_32])
-
 # Dummy nodes are intended for development purposes only!
 # They should always generate compiler errors to not accidentally end up in production code
-DummyMapper = NodeMapper(DummyParser(), [DummyBinding])
+# DummyMapper = NodeMapper(DummyParser(), [DummyBinding])
 
 SoftHierlMapping = {
-    'Gemm': GEMMLayer([GEMM_Mapper]),
+    'Add': AddLayer([Add_Mapper])
 }
 
 
@@ -121,8 +97,9 @@ SoftHierOptimizer = TopologyOptimizer([
     # DebugPrintPass(r'.*[Mm]at[Mm]ul.*', position = 'after'),
 ])
 
-includeList = ["DeeployMath.h", "runtime.h", "synchronization.h"]
-
+includeList = ["DeeployBasicMath.h"]
+# includeList = ["DeeployBasicMath.h", "flex_cluster_arch.h",  "flex_dma_pattern.h", "flex_runtime.h"]
+# includeList = ["DeeployBasicMath.h", "flex_runtime.h", "flex_cluster_arch.h",  "flex_dma_pattern.h", "flex_printf.h", "flex_alloc.h"]
 
 class SoftHierEngine(DeploymentEngine):
 
@@ -133,7 +110,7 @@ class SoftHierEngine(DeploymentEngine):
 class SoftHierPlatform(DeploymentPlatform):
 
     def __init__(self,
-                 engines = [SoftHierEngine("MemPool")],
+                 engines = [SoftHierEngine("SoftHier")], # subject to change
                  variableBuffer = SoftHierVariableBuffer,
                  constantBuffer = SoftHierConstantBuffer,
                  structBuffer = SoftHierStructBuffer,
