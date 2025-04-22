@@ -84,7 +84,7 @@ RUN make picolibc-riscv
 RUN make pulp-sdk
 RUN make qemu
 RUN make mempool
-RUN make banshee
+# RUN make banshee
 # Copy gvsoc requirements for later as they are removed when toolchain folder is deleted
 RUN make gvsoc && cp -r /app/toolchain/gvsoc/core/requirements.txt /app/core-requirements.txt && cp -r /app/toolchain/gvsoc/gapy/requirements.txt /app/gapy-requirements.txt
 
