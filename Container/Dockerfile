@@ -88,6 +88,8 @@ RUN make banshee
 # Copy gvsoc requirements for later as they are removed when toolchain folder is deleted
 RUN make gvsoc && cp -r /app/toolchain/gvsoc/core/requirements.txt /app/core-requirements.txt && cp -r /app/toolchain/gvsoc/gapy/requirements.txt /app/gapy-requirements.txt
 
+RUN make softhier && cp -r /app/toolchain/softhier /app/install/softhier
+
 # Dependencies needed for compiling Snitch
 ## Bender's installaton
 RUN wget https://github.com/pulp-platform/bender/releases/download/v${BENDER_VERSION}/bender-${BENDER_VERSION}-x86_64-linux-gnu-ubuntu${UBUNTU_VERSION}.tar.gz && \
@@ -124,6 +126,7 @@ ENV PULP_SDK_HOME=/app/install/pulp-sdk
 ENV LLVM_INSTALL_DIR=/app/install/llvm
 ENV SNITCH_HOME=/app/install/snitch_cluster
 ENV GVSOC_INSTALL_DIR=/app/install/gvsoc
+ENV SOFTHIER_INSTALL_DIR=/app/install/softhier
 ENV MINIMALLOC_INSTALL_DIR=/app/install/minimalloc
 ENV MEMPOOL_HOME=/app/install/mempool
 ENV PATH=/app/install/qemu/bin:/app/install/banshee:$PATH
