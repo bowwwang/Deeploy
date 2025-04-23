@@ -25,6 +25,8 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get install -y git-lfs \
     libpixman-1-dev \
     python3 \
     python-is-python3 \
+    python3.10-venv \
+    python3.10-distutils \
     curl \
     protobuf-compiler \
     libftdi-dev \
