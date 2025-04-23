@@ -297,7 +297,7 @@ gvsoc: ${GVSOC_INSTALL_DIR}
 
 
 ${TOOLCHAIN_DIR}/softhier:
-	cd ${TOOLCHAIN_DIR} && \ 
+	cd ${TOOLCHAIN_DIR} && \
 	git clone https://github.com/gvsoc/gvsoc.git -b soft_hier_release softhier && \
 	cd ${TOOLCHAIN_DIR}/softhier && \
 	. sourceme.sh         
@@ -305,7 +305,7 @@ ${TOOLCHAIN_DIR}/softhier:
 ${SOFTHIER_INSTALL_DIR}: ${TOOLCHAIN_DIR}/softhier
 	cd ${TOOLCHAIN_DIR}/softhier && \
 	. sourceme.sh && \
-	make hw
+	make hw-deeploy
 
 softhier: ${SOFTHIER_INSTALL_DIR}
 
