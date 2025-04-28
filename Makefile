@@ -300,6 +300,11 @@ ${TOOLCHAIN_DIR}/softhier:
 	cd ${TOOLCHAIN_DIR} && \
 	git clone https://github.com/gvsoc/gvsoc.git -b bowwang-dev/softhier-deeploy softhier && \
 	cd ${TOOLCHAIN_DIR}/softhier && \
+	rm ${TOOLCHAIN_DIR}/softhier/soft_hier/flex_cluster_sdk/runtime/flex_memory.ld && \
+	rm ${TOOLCHAIN_DIR}/softhier/soft_hier/flex_cluster_sdk/runtime/include/flex_alloc.h && \
+	rm ${TOOLCHAIN_DIR}/softhier/soft_hier/flex_cluster_sdk/runtime/include/flex_runtime.h && \
+	mv ${TOOLCHAIN_DIR}/softhier/soft_hier/flex_cluster_sdk/runtime/flex_memory_deeploy.ld ${TOOLCHAIN_DIR}/softhier/soft_hier/flex_cluster_sdk/runtime/flex_memory.ld && \
+	cp ${TOOLCHAIN_DIR}/softhier/soft_hier/flex_cluster_sdk/runtime/deeploy_include/* ${TOOLCHAIN_DIR}/softhier/soft_hier/flex_cluster_sdk/runtime/include && \
 	. sourceme.sh         
 
 ${SOFTHIER_INSTALL_DIR}: ${TOOLCHAIN_DIR}/softhier
