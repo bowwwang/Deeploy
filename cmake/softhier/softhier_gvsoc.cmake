@@ -6,7 +6,7 @@ macro(add_gvsoc_emulation name)
   # set(GVSOC_EXECUTABLE /scratch2/bowwang/tmp_gvsoc_rebase/gvsoc/install/bin/gvsoc)
 
   # bowwang: adapted to docker
-  set(GVSOC_EXECUTABLE ${SOFTHIER_INSTALL_DIR}/install/bin/gvsoc)
+  set(GVSOC_EXECUTABLE $ENV{SOFTHIER_INSTALL_DIR}/install/bin/gvsoc)
 
   add_custom_target(gvsoc_${name}
     DEPENDS ${name}

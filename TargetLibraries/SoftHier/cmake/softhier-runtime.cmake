@@ -9,7 +9,7 @@
 # set(SOFTHIER_SDK_HOME /scratch2/bowwang/tmp_gvsoc_rebase/gvsoc/soft_hier/flex_cluster_sdk)
 
 # bowwang: adapted to docker
-set(SOFTHIER_SDK_HOME ${SOFTHIER_INSTALL_DIR}/soft_hier/flex_cluster_sdk)
+set(SOFTHIER_SDK_HOME $ENV{SOFTHIER_INSTALL_DIR}/soft_hier/flex_cluster_sdk)
 set(SOFTHIER_RUNTIME_HOME ${SOFTHIER_SDK_HOME}/runtime)
 
 
