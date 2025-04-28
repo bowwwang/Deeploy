@@ -14,7 +14,7 @@ macro(add_gvsoc_emulation name)
             --target=pulp.chips.flex_cluster.flex_cluster
             --binary ${BINARY_PATH}
             run
-            --trace=/chip/cluster_0/pe0
+            # --trace=/chip/cluster_0/pe0
     COMMENT "Simulating deeploytest with GVSOC"
     USES_TERMINAL
     VERBATIM
