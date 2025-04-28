@@ -3,7 +3,10 @@ macro(add_gvsoc_emulation name)
   set(BINARY_PATH ${CMAKE_BINARY_DIR}/bin/${name})
 
   # Path to the gvsoc binary
-  set(GVSOC_EXECUTABLE /scratch2/bowwang/tmp_gvsoc_rebase/gvsoc/install/bin/gvsoc)
+  # set(GVSOC_EXECUTABLE /scratch2/bowwang/tmp_gvsoc_rebase/gvsoc/install/bin/gvsoc)
+
+  # bowwang: adapted to docker
+  set(GVSOC_EXECUTABLE ${SOFTHIER_INSTALL_DIR}/install/bin/gvsoc)
 
   add_custom_target(gvsoc_${name}
     DEPENDS ${name}

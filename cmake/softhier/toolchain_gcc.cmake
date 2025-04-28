@@ -2,7 +2,10 @@ add_compile_definitions(
     DEEPLOY_SOFTHIER_PLATFORM
 )
 
-set(SOFTHIER_TOOLCHAIN_INSTALL_DIR /scratch2/bowwang/tmp_gvsoc_rebase/gvsoc/third_party/toolchain/install)
+# set(SOFTHIER_TOOLCHAIN_INSTALL_DIR /scratch2/bowwang/tmp_gvsoc_rebase/gvsoc/third_party/toolchain/install)
+
+# bowwang: adapt to docker
+set(SOFTHIER_TOOLCHAIN_INSTALL_DIR ${SOFTHIER_INSTALL_DIR}/third_party/toolchain/install)
 set(TOOLCHAIN_PREFIX ${SOFTHIER_TOOLCHAIN_INSTALL_DIR}/bin/riscv32-unknown-elf)
 
 # bowwang: Building for bare metal system
