@@ -296,6 +296,24 @@ ${GVSOC_INSTALL_DIR}: ${TOOLCHAIN_DIR}/gvsoc
 gvsoc: ${GVSOC_INSTALL_DIR}
 
 
+# ${TOOLCHAIN_DIR}/softhier:
+# 	cd ${TOOLCHAIN_DIR} && \
+# 	git clone https://github.com/gvsoc/gvsoc.git -b bowwang-dev/softhier-deeploy softhier && \
+# 	cd ${TOOLCHAIN_DIR}/softhier && \
+# 	rm ${TOOLCHAIN_DIR}/softhier/soft_hier/flex_cluster_sdk/runtime/flex_memory.ld && \
+# 	rm ${TOOLCHAIN_DIR}/softhier/soft_hier/flex_cluster_sdk/runtime/include/flex_alloc.h && \
+# 	rm ${TOOLCHAIN_DIR}/softhier/soft_hier/flex_cluster_sdk/runtime/include/flex_runtime.h && \
+# 	mv ${TOOLCHAIN_DIR}/softhier/soft_hier/flex_cluster_sdk/runtime/flex_memory_deeploy.ld ${TOOLCHAIN_DIR}/softhier/soft_hier/flex_cluster_sdk/runtime/flex_memory.ld && \
+# 	cp ${TOOLCHAIN_DIR}/softhier/soft_hier/flex_cluster_sdk/runtime/deeploy_include/* ${TOOLCHAIN_DIR}/softhier/soft_hier/flex_cluster_sdk/runtime/include && \
+# 	. sourceme.sh         
+
+# ${SOFTHIER_INSTALL_DIR}: ${TOOLCHAIN_DIR}/softhier
+# 	cd ${TOOLCHAIN_DIR}/softhier && \
+# 	. sourceme.sh && \
+# 	make hw-deeploy
+
+# softhier: ${SOFTHIER_INSTALL_DIR}
+
 ${TOOLCHAIN_DIR}/softhier:
 	cd ${TOOLCHAIN_DIR} && \
 	git clone https://github.com/gvsoc/gvsoc.git -b bowwang-dev/softhier-deeploy softhier && \
@@ -304,13 +322,20 @@ ${TOOLCHAIN_DIR}/softhier:
 	rm ${TOOLCHAIN_DIR}/softhier/soft_hier/flex_cluster_sdk/runtime/include/flex_alloc.h && \
 	rm ${TOOLCHAIN_DIR}/softhier/soft_hier/flex_cluster_sdk/runtime/include/flex_runtime.h && \
 	mv ${TOOLCHAIN_DIR}/softhier/soft_hier/flex_cluster_sdk/runtime/flex_memory_deeploy.ld ${TOOLCHAIN_DIR}/softhier/soft_hier/flex_cluster_sdk/runtime/flex_memory.ld && \
-	cp ${TOOLCHAIN_DIR}/softhier/soft_hier/flex_cluster_sdk/runtime/deeploy_include/* ${TOOLCHAIN_DIR}/softhier/soft_hier/flex_cluster_sdk/runtime/include && \
-	. sourceme.sh         
+	cp ${TOOLCHAIN_DIR}/softhier/soft_hier/flex_cluster_sdk/runtime/deeploy_include/* ${TOOLCHAIN_DIR}/softhier/soft_hier/flex_cluster_sdk/runtime/include      
 
 ${SOFTHIER_INSTALL_DIR}: ${TOOLCHAIN_DIR}/softhier
-	cd ${TOOLCHAIN_DIR}/softhier && \
-	. sourceme.sh && \
-	make hw-deeploy
+	if [ "${SOFTHIER_INSTALL_DIR}" != "/app/install/softhier" ]; then \
+		cd ${TOOLCHAIN_DIR}/softhier && \
+		. sourceme.sh && \
+		make hw-deeploy; \
+	else \
+		cp -r ${TOOLCHAIN_DIR}/softhier ${SOFTHIER_INSTALL_DIR} && \
+		cd ${SOFTHIER_INSTALL_DIR} && \
+		. sourceme.sh && \
+		make hw-deeploy; \
+	fi
+
 
 softhier: ${SOFTHIER_INSTALL_DIR}
 
