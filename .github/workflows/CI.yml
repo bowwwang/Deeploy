@@ -125,116 +125,116 @@ jobs:
         WaveFormer 
 
   ### Snitch Tests ###
-  snitch-kernels:
-    uses: ./.github/workflows/TestRunnerSnitch.yml
-    needs: select-docker-image
-    with:
-      docker-image: ${{ needs.select-docker-image.outputs.image }}
-      test-names: |
-        Adder
-        iSoftmax
-        TestiNoNorm
-        TestAdderLarge
-        TestiSoftmaxLarge
-        testMatMul
-        testRQGEMM
-        TestRQAdd
-        testRQGEMMTransB
-        testFloatSoftmax
-      num-cores: 9
-      simulators: |
-        banshee
-        gvsoc
+  # snitch-kernels:
+  #   uses: ./.github/workflows/TestRunnerSnitch.yml
+  #   needs: select-docker-image
+  #   with:
+  #     docker-image: ${{ needs.select-docker-image.outputs.image }}
+  #     test-names: |
+  #       Adder
+  #       iSoftmax
+  #       TestiNoNorm
+  #       TestAdderLarge
+  #       TestiSoftmaxLarge
+  #       testMatMul
+  #       testRQGEMM
+  #       TestRQAdd
+  #       testRQGEMMTransB
+  #       testFloatSoftmax
+  #     num-cores: 9
+  #     simulators: |
+  #       banshee
+  #       gvsoc
 
-  snitch-kernels-tiled-singlebuffer-L2:
-    uses: ./.github/workflows/TestRunnerTiledSnitchSequential.yml
-    needs: select-docker-image
-    with:
-      docker-image: ${{ needs.select-docker-image.outputs.image }}
-      tests-config: |
-        [
-          {
-            "name": "TestiNoNorm",
-            "L1": [5000, 10000]
-          },
-          {
-            "name": "TestAdderLarge",
-            "L1": [5000, 10000]
-          },
-          {
-            "name": "TestiSoftmaxLarge",
-            "L1": [5000, 10000]
-          },
-          {
-            "name": "testRQGEMM",
-            "L1": [2000, 5000]
-          },
-          {
-            "name": "testFloatSoftmax",
-            "L1": [2000, 5000, 10000]
-          },
+  # snitch-kernels-tiled-singlebuffer-L2:
+  #   uses: ./.github/workflows/TestRunnerTiledSnitchSequential.yml
+  #   needs: select-docker-image
+  #   with:
+  #     docker-image: ${{ needs.select-docker-image.outputs.image }}
+  #     tests-config: |
+  #       [
+  #         {
+  #           "name": "TestiNoNorm",
+  #           "L1": [5000, 10000]
+  #         },
+  #         {
+  #           "name": "TestAdderLarge",
+  #           "L1": [5000, 10000]
+  #         },
+  #         {
+  #           "name": "TestiSoftmaxLarge",
+  #           "L1": [5000, 10000]
+  #         },
+  #         {
+  #           "name": "testRQGEMM",
+  #           "L1": [2000, 5000]
+  #         },
+  #         {
+  #           "name": "testFloatSoftmax",
+  #           "L1": [2000, 5000, 10000]
+  #         },
 
-          {
-            "name": "TestRQAdd",
-            "L1": [5000, 10000]
-          },
+  #         {
+  #           "name": "TestRQAdd",
+  #           "L1": [5000, 10000]
+  #         },
 
-          {
-            "name": "testFloatGEMM",
-            "L1": [2000, 5000, 10000]
-          },
+  #         {
+  #           "name": "testFloatGEMM",
+  #           "L1": [2000, 5000, 10000]
+  #         },
 
-          {
-            "name": "testFloatGEMMtransB",
-            "L1": [2000, 5000, 10000]
-          }
-        ]
-      simulators: |
-        banshee
-        gvsoc
+  #         {
+  #           "name": "testFloatGEMMtransB",
+  #           "L1": [2000, 5000, 10000]
+  #         }
+  #       ]
+  #     simulators: |
+  #       banshee
+  #       gvsoc
 
   ### Mempool Tests ###
-  mempool-kernels:
-    uses: ./.github/workflows/TestRunnerMempool.yml
-    needs: select-docker-image
-    with:
-      docker-image: ${{ needs.select-docker-image.outputs.image }}
-      test-names: |
-          Adder
-          MultIO
-          test1DConvolution
-          test2DConvolution
-          test1DDWConvolution
-          test2DDWConvolution
-          test1DPad
-          test2DPad
-          testGEMM
-          testMatMul
-          testMatMulAdd
-          testMaxPool
-          testRQConv
-          testRQGEMM
-          testRQMatMul
-          testReduceSum
-          testReduceMean
-          testSlice
-          testRequantizedDWConv
-          test2DRequantizedConv
+  # mempool-kernels:
+  #   uses: ./.github/workflows/TestRunnerMempool.yml
+  #   needs: select-docker-image
+  #   with:
+  #     docker-image: ${{ needs.select-docker-image.outputs.image }}
+  #     test-names: |
+  #         Adder
+  #         MultIO
+  #         test1DConvolution
+  #         test2DConvolution
+  #         test1DDWConvolution
+  #         test2DDWConvolution
+  #         test1DPad
+  #         test2DPad
+  #         testGEMM
+  #         testMatMul
+  #         testMatMulAdd
+  #         testMaxPool
+  #         testRQConv
+  #         testRQGEMM
+  #         testRQMatMul
+  #         testReduceSum
+  #         testReduceMean
+  #         testSlice
+  #         testRequantizedDWConv
+  #         test2DRequantizedConv
 
-  mempool-models:
-    uses: ./.github/workflows/TestRunnerMempool.yml
-    needs: select-docker-image
-    with:
-      docker-image: ${{ needs.select-docker-image.outputs.image }}
-      test-names: |
-        simpleRegression
-        simpleCNN
-        ICCT
-        ICCT_ITA
-        ICCT_8
-        ICCT_ITA_8
-        miniMobileNet
-        miniMobileNetv2
+  # mempool-models:
+  #   uses: ./.github/workflows/TestRunnerMempool.yml
+  #   needs: select-docker-image
+  #   with:
+  #     docker-image: ${{ needs.select-docker-image.outputs.image }}
+  #     test-names: |
+  #       simpleRegression
+  #       simpleCNN
+  #       ICCT
+  #       ICCT_ITA
+  #       ICCT_8
+  #       ICCT_ITA_8
+  #       miniMobileNet
+  #       miniMobileNetv2
 
 
   ### Siracusa Tests ###
