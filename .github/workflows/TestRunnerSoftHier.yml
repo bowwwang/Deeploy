@@ -29,7 +29,7 @@ jobs:
           cd ${SOFTHIER_INSTALL_DIR} 
           source sourceme.sh
           deactivate
-          cd /app/Deeploy
+          cd /__w/Deeploy/Deeploy
           cd DeeployTest
           echo "$testNames" | while IFS= read -r testName; do
             if [[ -n "$testName" ]]; then
