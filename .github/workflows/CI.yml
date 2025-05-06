@@ -78,51 +78,51 @@ jobs:
         QuantizedLinear
         
 
-  generic-models:
-    uses: ./.github/workflows/TestRunnerGeneric.yml
-    needs: select-docker-image
-    with:
-      docker-image: ${{ needs.select-docker-image.outputs.image }}
-      test-names: |
-        simpleRegression
-        WaveFormer
-        simpleCNN
-        ICCT
-        ICCT_ITA
-        ICCT_8
-        ICCT_ITA_8
-        miniMobileNet
-        miniMobileNetv2
-        CCT/CCT_1_16_16_8
+  # generic-models:
+  #   uses: ./.github/workflows/TestRunnerGeneric.yml
+  #   needs: select-docker-image
+  #   with:
+  #     docker-image: ${{ needs.select-docker-image.outputs.image }}
+  #     test-names: |
+  #       simpleRegression
+  #       WaveFormer
+  #       simpleCNN
+  #       ICCT
+  #       ICCT_ITA
+  #       ICCT_8
+  #       ICCT_ITA_8
+  #       miniMobileNet
+  #       miniMobileNetv2
+  #       CCT/CCT_1_16_16_8
   
 
   ### CortexM Tests ###
-  cortexm-kernels: 
-    uses: ./.github/workflows/TestRunnerCortexM.yml
-    needs: select-docker-image
-    with:
-      docker-image: ${{ needs.select-docker-image.outputs.image }}
-      test-names: |
-        Adder
-        MultIO
-        test1DPad
-        test2DPad
-        testMatMul
-        testMatMulAdd
-        testMaxPool
-        testRQConv
-        testReduceSum
-        testReduceMean
-        testSlice
+  # cortexm-kernels: 
+  #   uses: ./.github/workflows/TestRunnerCortexM.yml
+  #   needs: select-docker-image
+  #   with:
+  #     docker-image: ${{ needs.select-docker-image.outputs.image }}
+  #     test-names: |
+  #       Adder
+  #       MultIO
+  #       test1DPad
+  #       test2DPad
+  #       testMatMul
+  #       testMatMulAdd
+  #       testMaxPool
+  #       testRQConv
+  #       testReduceSum
+  #       testReduceMean
+  #       testSlice
 
-  cortexm-models: 
-    uses: ./.github/workflows/TestRunnerCortexM.yml
-    needs: select-docker-image
-    with:
-      docker-image: ${{ needs.select-docker-image.outputs.image }}
-      test-names: |
-        simpleRegression
-        WaveFormer 
+  # cortexm-models: 
+  #   uses: ./.github/workflows/TestRunnerCortexM.yml
+  #   needs: select-docker-image
+  #   with:
+  #     docker-image: ${{ needs.select-docker-image.outputs.image }}
+  #     test-names: |
+  #       simpleRegression
+  #       WaveFormer 
 
   ### Snitch Tests ###
   # snitch-kernels:
@@ -236,506 +236,514 @@ jobs:
   #       miniMobileNet
   #       miniMobileNetv2
 
-
-  ### Siracusa Tests ###
-  siracusa-kernels:
-    uses: ./.github/workflows/TestRunnerSiracusa.yml
+  ### SoftHier Tests ###
+  softhier-kernels:
+    uses: ./.github/workflows/TestRunnerSoftHier.yml
     needs: select-docker-image
     with:
       docker-image: ${{ needs.select-docker-image.outputs.image }}
       test-names: |
         Adder
-        MultIO
-        test1DPad
-        test2DPad
-        testMatMul
-        testMatMulAdd
-        testRequantizedDWConv
-        test2DRequantizedConv
-        iSoftmax
-        testConcat
-        testRMSNorm
-        trueIntegerDivSandwich
-        Hardswish
-        RQHardswish
-        testBacktracking
-        testFloatAdder
-        testFloatGEMM
-        testFloat2DConvolution
-        testFloatLayerNorm
-        testFloatRelu
-        testFloatMaxPool
-        testFloatMatmul
-        testFloatSoftmax
-        testFloatTranspose
-        testFloatMul
-        Quant
-        Dequant
-        testFloatReduceSum
-        testFloatSoftmaxGrad
-        testFloatSoftmaxCrossEntropy
-        testFloatSoftmaxCrossEntropyGrad
-        QuantizedLinear
-      num-cores: 8
 
-  siracusa-models:
-    uses: ./.github/workflows/TestRunnerSiracusa.yml
-    needs: select-docker-image
-    with:
-      docker-image: ${{ needs.select-docker-image.outputs.image }}
-      test-names: |
-        simpleRegression
-        miniMobileNet
-        miniMobileNetv2
-        Attention
-        MLPerf/KeywordSpotting
-        MLPerf/ImageClassification
-        MLPerf/AnomalyDetection
-        CCT/CCT_1_16_16_8
-        testTrainCCT/CCT_GEMM_Weight_Bias_1_16_16_8
-      num-cores: 8
+  ### Siracusa Tests ###
+  # siracusa-kernels:
+  #   uses: ./.github/workflows/TestRunnerSiracusa.yml
+  #   needs: select-docker-image
+  #   with:
+  #     docker-image: ${{ needs.select-docker-image.outputs.image }}
+  #     test-names: |
+  #       Adder
+  #       MultIO
+  #       test1DPad
+  #       test2DPad
+  #       testMatMul
+  #       testMatMulAdd
+  #       testRequantizedDWConv
+  #       test2DRequantizedConv
+  #       iSoftmax
+  #       testConcat
+  #       testRMSNorm
+  #       trueIntegerDivSandwich
+  #       Hardswish
+  #       RQHardswish
+  #       testBacktracking
+  #       testFloatAdder
+  #       testFloatGEMM
+  #       testFloat2DConvolution
+  #       testFloatLayerNorm
+  #       testFloatRelu
+  #       testFloatMaxPool
+  #       testFloatMatmul
+  #       testFloatSoftmax
+  #       testFloatTranspose
+  #       testFloatMul
+  #       Quant
+  #       Dequant
+  #       testFloatReduceSum
+  #       testFloatSoftmaxGrad
+  #       testFloatSoftmaxCrossEntropy
+  #       testFloatSoftmaxCrossEntropyGrad
+  #       QuantizedLinear
+  #     num-cores: 8
 
-  siracusa-kernels-tiled-singlebuffer-L2:
-    uses: ./.github/workflows/TestRunnerTiledSiracusaSequential.yml
-    needs: select-docker-image
-    with:
-      docker-image: ${{ needs.select-docker-image.outputs.image }}
-      tests-config: |
-        [
-          {
-            "name": "testMatMul",
-            "L1": [64000, 32000, 16000]
-          },
-          {
-            "name": "test2DRequantizedConv",
-            "L1": [8000, 6000, 4000]
-          },
-          {
-            "name": "testRequantizedDWConv",
-            "L1": [2561]
-          },
-          {
-            "name": "iSoftmax",
-            "L1": [800, 500, 300]
-          },
-          {
-            "name": "testConcat",
-            "L1": [32000, 16000, 8000]
-          },
-          {
-            "name": "testRMSNorm",
-            "L1": [2048, 1024, 512]
-          },
-          {
-            "name": "Hardswish",
-            "L1": [750]
-          },
-          {
-            "name": "RQHardswish",
-            "L1": [750]
-          },
-          {
-            "name": "testFloatGEMM",
-            "L1": [8000]
-          },
-          {
-            "name": "testFloat2DConvolution",
-            "L1": [2000]
-          },
-          {
-            "name": "testFloatLayerNorm",
-            "L1": [2000]
-          },
-          {
-            "name": "testFloatRelu",
-            "L1": [2000]
-          },
-          {
-            "name": "testFloatMaxPool",
-            "L1": [2000]
-          },
-          {
-            "name": "testFloatMatmul",
-            "L1": [2000]
-          },
-          {
-            "name": "testFloatSoftmax",
-            "L1": [4000]
-          },
-          {
-            "name": "testFloatTranspose",
-            "L1": [2000]
-          },
-          {
-            "name": "testFloatMul",
-            "L1": [2000]
-          },
-          {
-          "name": "largeFloatAdd",
-          "L1": [220000]
-          }
-        ]
-      num-cores: 8
+  # siracusa-models:
+  #   uses: ./.github/workflows/TestRunnerSiracusa.yml
+  #   needs: select-docker-image
+  #   with:
+  #     docker-image: ${{ needs.select-docker-image.outputs.image }}
+  #     test-names: |
+  #       simpleRegression
+  #       miniMobileNet
+  #       miniMobileNetv2
+  #       Attention
+  #       MLPerf/KeywordSpotting
+  #       MLPerf/ImageClassification
+  #       MLPerf/AnomalyDetection
+  #       CCT/CCT_1_16_16_8
+  #       testTrainCCT/CCT_GEMM_Weight_Bias_1_16_16_8
+  #     num-cores: 8
 
-  siracusa-kernels-tiled-doublebuffer-L2:
-    uses: ./.github/workflows/TestRunnerTiledSiracusaSequential.yml
-    needs: select-docker-image
-    with:
-      docker-image: ${{ needs.select-docker-image.outputs.image }}
-      tests-config: |
-        [
-          {
-            "name": "testMatMul",
-            "L1": [64000, 32000, 16000]
-          },
-          {
-            "name": "test2DRequantizedConv",
-            "L1": [8000, 6000, 5000]
-          },
-          {
-            "name": "testRequantizedDWConv",
-            "L1": [5121]
-          },
-          {
-            "name": "iSoftmax",
-            "L1": [1600, 1000, 600]
-          },
-          {
-            "name": "testConcat",
-            "L1": [64000, 32000, 16000]
-          },
-          {
-            "name": "testRMSNorm",
-            "L1": [4096, 2048, 1024]
-          },
-          {
-            "name": "Hardswish",
-            "L1": [750]
-          },
-          {
-            "name": "RQHardswish",
-            "L1": [750]
-          },
-          {
-            "name": "testFloatGEMM",
-            "L1": [8000]
-          },
-          {
-            "name": "testFloat2DConvolution",
-            "L1": [4000]
-          },
-          {
-            "name": "testFloatLayerNorm",
-            "L1": [2000]
-          },
-          {
-            "name": "testFloatRelu",
-            "L1": [2000]
-          },
-          {
-            "name": "testFloatMaxPool",
-            "L1": [5000]
-          },
-          {
-            "name": "testFloatMatmul",
-            "L1": [5000]
-          },
-          {
-            "name": "testFloatSoftmax",
-            "L1": [8000]
-          },
-          {
-            "name": "testFloatTranspose",
-            "L1": [2000]
-          },
-          {
-            "name": "testFloatMul",
-            "L1": [2000]
-          }
-        ]
-      num-cores: 8
-      double-buffer: true
+  # siracusa-kernels-tiled-singlebuffer-L2:
+  #   uses: ./.github/workflows/TestRunnerTiledSiracusaSequential.yml
+  #   needs: select-docker-image
+  #   with:
+  #     docker-image: ${{ needs.select-docker-image.outputs.image }}
+  #     tests-config: |
+  #       [
+  #         {
+  #           "name": "testMatMul",
+  #           "L1": [64000, 32000, 16000]
+  #         },
+  #         {
+  #           "name": "test2DRequantizedConv",
+  #           "L1": [8000, 6000, 4000]
+  #         },
+  #         {
+  #           "name": "testRequantizedDWConv",
+  #           "L1": [2561]
+  #         },
+  #         {
+  #           "name": "iSoftmax",
+  #           "L1": [800, 500, 300]
+  #         },
+  #         {
+  #           "name": "testConcat",
+  #           "L1": [32000, 16000, 8000]
+  #         },
+  #         {
+  #           "name": "testRMSNorm",
+  #           "L1": [2048, 1024, 512]
+  #         },
+  #         {
+  #           "name": "Hardswish",
+  #           "L1": [750]
+  #         },
+  #         {
+  #           "name": "RQHardswish",
+  #           "L1": [750]
+  #         },
+  #         {
+  #           "name": "testFloatGEMM",
+  #           "L1": [8000]
+  #         },
+  #         {
+  #           "name": "testFloat2DConvolution",
+  #           "L1": [2000]
+  #         },
+  #         {
+  #           "name": "testFloatLayerNorm",
+  #           "L1": [2000]
+  #         },
+  #         {
+  #           "name": "testFloatRelu",
+  #           "L1": [2000]
+  #         },
+  #         {
+  #           "name": "testFloatMaxPool",
+  #           "L1": [2000]
+  #         },
+  #         {
+  #           "name": "testFloatMatmul",
+  #           "L1": [2000]
+  #         },
+  #         {
+  #           "name": "testFloatSoftmax",
+  #           "L1": [4000]
+  #         },
+  #         {
+  #           "name": "testFloatTranspose",
+  #           "L1": [2000]
+  #         },
+  #         {
+  #           "name": "testFloatMul",
+  #           "L1": [2000]
+  #         },
+  #         {
+  #         "name": "largeFloatAdd",
+  #         "L1": [220000]
+  #         }
+  #       ]
+  #     num-cores: 8
+
+  # siracusa-kernels-tiled-doublebuffer-L2:
+  #   uses: ./.github/workflows/TestRunnerTiledSiracusaSequential.yml
+  #   needs: select-docker-image
+  #   with:
+  #     docker-image: ${{ needs.select-docker-image.outputs.image }}
+  #     tests-config: |
+  #       [
+  #         {
+  #           "name": "testMatMul",
+  #           "L1": [64000, 32000, 16000]
+  #         },
+  #         {
+  #           "name": "test2DRequantizedConv",
+  #           "L1": [8000, 6000, 5000]
+  #         },
+  #         {
+  #           "name": "testRequantizedDWConv",
+  #           "L1": [5121]
+  #         },
+  #         {
+  #           "name": "iSoftmax",
+  #           "L1": [1600, 1000, 600]
+  #         },
+  #         {
+  #           "name": "testConcat",
+  #           "L1": [64000, 32000, 16000]
+  #         },
+  #         {
+  #           "name": "testRMSNorm",
+  #           "L1": [4096, 2048, 1024]
+  #         },
+  #         {
+  #           "name": "Hardswish",
+  #           "L1": [750]
+  #         },
+  #         {
+  #           "name": "RQHardswish",
+  #           "L1": [750]
+  #         },
+  #         {
+  #           "name": "testFloatGEMM",
+  #           "L1": [8000]
+  #         },
+  #         {
+  #           "name": "testFloat2DConvolution",
+  #           "L1": [4000]
+  #         },
+  #         {
+  #           "name": "testFloatLayerNorm",
+  #           "L1": [2000]
+  #         },
+  #         {
+  #           "name": "testFloatRelu",
+  #           "L1": [2000]
+  #         },
+  #         {
+  #           "name": "testFloatMaxPool",
+  #           "L1": [5000]
+  #         },
+  #         {
+  #           "name": "testFloatMatmul",
+  #           "L1": [5000]
+  #         },
+  #         {
+  #           "name": "testFloatSoftmax",
+  #           "L1": [8000]
+  #         },
+  #         {
+  #           "name": "testFloatTranspose",
+  #           "L1": [2000]
+  #         },
+  #         {
+  #           "name": "testFloatMul",
+  #           "L1": [2000]
+  #         }
+  #       ]
+  #     num-cores: 8
+  #     double-buffer: true
     
-  siracusa-models-tiled-singlebuffer-L2:
-    strategy:
-      fail-fast: false
-      matrix:
-        test-data: 
-          - name: "simpleRegression"
-            L1: [45000, 30000, 15000]
-          - name: "miniMobileNet"
-            L1: [60000, 12000, 6000, 3000]
-          - name: "miniMobileNetv2"
-            L1: [60000, 16000, 12000, 8000]
-          - name: "Attention"
-            L1: [60000, 10000, 5000]
-          - name: "microLlama/microLlama1"
-            L1: [60000, 10000, 5000]
-          - name: "microLlama/microLlama8"
-            L1: [60000, 10000, 5000]
-          - name: "microLlama/microLlama8_parallel"
-            L1: [60000, 10000, 5000]
-          - name: "MLPerf/KeywordSpotting"
-            L1: [64000]
-          - name: "MLPerf/ImageClassification"
-            L1: [64000]
-          - name: "MLPerf/AnomalyDetection"
-            L1: [64000]
-          - name: "CCT/CCT_1_16_16_8"
-            L1: [64000]
-        num-cores:
-          - 8
-    uses: ./.github/workflows/TestRunnerTiledSiracusa.yml
-    needs: select-docker-image
-    with:
-      docker-image: ${{ needs.select-docker-image.outputs.image }}
-      test-name: ${{ matrix.test-data.name }}
-      num-cores: ${{ matrix.num-cores }}
-      L1: ${{ toJson(matrix.test-data.L1) }}
+  # siracusa-models-tiled-singlebuffer-L2:
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       test-data: 
+  #         - name: "simpleRegression"
+  #           L1: [45000, 30000, 15000]
+  #         - name: "miniMobileNet"
+  #           L1: [60000, 12000, 6000, 3000]
+  #         - name: "miniMobileNetv2"
+  #           L1: [60000, 16000, 12000, 8000]
+  #         - name: "Attention"
+  #           L1: [60000, 10000, 5000]
+  #         - name: "microLlama/microLlama1"
+  #           L1: [60000, 10000, 5000]
+  #         - name: "microLlama/microLlama8"
+  #           L1: [60000, 10000, 5000]
+  #         - name: "microLlama/microLlama8_parallel"
+  #           L1: [60000, 10000, 5000]
+  #         - name: "MLPerf/KeywordSpotting"
+  #           L1: [64000]
+  #         - name: "MLPerf/ImageClassification"
+  #           L1: [64000]
+  #         - name: "MLPerf/AnomalyDetection"
+  #           L1: [64000]
+  #         - name: "CCT/CCT_1_16_16_8"
+  #           L1: [64000]
+  #       num-cores:
+  #         - 8
+  #   uses: ./.github/workflows/TestRunnerTiledSiracusa.yml
+  #   needs: select-docker-image
+  #   with:
+  #     docker-image: ${{ needs.select-docker-image.outputs.image }}
+  #     test-name: ${{ matrix.test-data.name }}
+  #     num-cores: ${{ matrix.num-cores }}
+  #     L1: ${{ toJson(matrix.test-data.L1) }}
 
-  siracusa-models-tiled-singlebuffer-L3:
-    strategy:
-      fail-fast: false
-      matrix:
-        test-data: 
-          - name: "simpleRegression"
-            L1: [45000, 30000, 16000] # SCHEREMO: 15000 leads to non-2d transfers in L3!
-          - name: "miniMobileNet"
-            L1: [60000, 12000, 6000] # SCHEREMO: 3000 leads to non-2d transfers in L3!
-          - name: "miniMobileNetv2"
-            L1: [60000, 16000, 12000, 8000]
-          - name: "Attention"
-            L1: [60000, 10000, 5000, 2500]
-          - name: "Transformer"
-            L1: [60000, 30000, 15000]
-          - name: "microLlama/microLlama1"
-            L1: [60000, 10000, 5000]
-          - name: "CCT/CCT_1_32_32_8"
-            L1: [64000]
-          - name: "CCT/CCT_1_16_16_64"
-            L1: [64000]
-          - name: "CCT/CCT_1_16_16_128"
-            L1: [64000]
-        num-cores:
-          - 8
-        default-memory-level:
-          - "L3"
-    uses: ./.github/workflows/TestRunnerTiledSiracusa.yml
-    needs: select-docker-image
-    with:
-      docker-image: ${{ needs.select-docker-image.outputs.image }}
-      test-name: ${{ matrix.test-data.name }}
-      num-cores: ${{ matrix.num-cores }}
-      L1: ${{ toJson(matrix.test-data.L1) }}
-      default-memory-level: ${{ matrix.default-memory-level }}
+  # siracusa-models-tiled-singlebuffer-L3:
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       test-data: 
+  #         - name: "simpleRegression"
+  #           L1: [45000, 30000, 16000] # SCHEREMO: 15000 leads to non-2d transfers in L3!
+  #         - name: "miniMobileNet"
+  #           L1: [60000, 12000, 6000] # SCHEREMO: 3000 leads to non-2d transfers in L3!
+  #         - name: "miniMobileNetv2"
+  #           L1: [60000, 16000, 12000, 8000]
+  #         - name: "Attention"
+  #           L1: [60000, 10000, 5000, 2500]
+  #         - name: "Transformer"
+  #           L1: [60000, 30000, 15000]
+  #         - name: "microLlama/microLlama1"
+  #           L1: [60000, 10000, 5000]
+  #         - name: "CCT/CCT_1_32_32_8"
+  #           L1: [64000]
+  #         - name: "CCT/CCT_1_16_16_64"
+  #           L1: [64000]
+  #         - name: "CCT/CCT_1_16_16_128"
+  #           L1: [64000]
+  #       num-cores:
+  #         - 8
+  #       default-memory-level:
+  #         - "L3"
+  #   uses: ./.github/workflows/TestRunnerTiledSiracusa.yml
+  #   needs: select-docker-image
+  #   with:
+  #     docker-image: ${{ needs.select-docker-image.outputs.image }}
+  #     test-name: ${{ matrix.test-data.name }}
+  #     num-cores: ${{ matrix.num-cores }}
+  #     L1: ${{ toJson(matrix.test-data.L1) }}
+  #     default-memory-level: ${{ matrix.default-memory-level }}
 
-  siracusa-models-tiled-doublebuffer-L3:
-    strategy:
-      fail-fast: false
-      matrix:
-        test-data: 
-          - name: "simpleRegression"
-            L1: [60000, 45000, 30000]
-          - name: "miniMobileNet"
-            L1: [60000, 24000, 12000, 6000]
-          - name: "miniMobileNetv2"
-            L1: [60000, 32000, 24000, 16000]
-          - name: "Attention"
-            L1: [60000, 20000, 10000, 5000]
-          - name: "Transformer"
-            L1: [60000, 30000, 15000]
-          - name: "microLlama/microLlama1"
-            L1: [60000, 20000, 10000]
-          - name: "microLlama/microLlama8"
-            L1: [60000, 20000, 10000]
-          - name: "microLlama/microLlama8_parallel"
-            L1: [60000, 20000, 10000]
-          - name: "CCT/CCT_1_32_32_8"
-            L1: [64000]
-          - name: "CCT/CCT_1_16_16_64"
-            L1: [64000]
-          - name: "CCT/CCT_1_16_16_128"
-            L1: [64000]
-        num-cores:
-          - 8
-        double-buffer:
-          - true
-        default-memory-level:
-          - "L3"
-    uses: ./.github/workflows/TestRunnerTiledSiracusa.yml
-    needs: select-docker-image
-    with:
-      docker-image: ${{ needs.select-docker-image.outputs.image }}
-      test-name: ${{ matrix.test-data.name }}
-      num-cores: ${{ matrix.num-cores }}
-      L1: ${{ toJson(matrix.test-data.L1) }}
-      double-buffer: ${{ matrix.double-buffer }}
-      default-memory-level: ${{ matrix.default-memory-level }}
+  # siracusa-models-tiled-doublebuffer-L3:
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       test-data: 
+  #         - name: "simpleRegression"
+  #           L1: [60000, 45000, 30000]
+  #         - name: "miniMobileNet"
+  #           L1: [60000, 24000, 12000, 6000]
+  #         - name: "miniMobileNetv2"
+  #           L1: [60000, 32000, 24000, 16000]
+  #         - name: "Attention"
+  #           L1: [60000, 20000, 10000, 5000]
+  #         - name: "Transformer"
+  #           L1: [60000, 30000, 15000]
+  #         - name: "microLlama/microLlama1"
+  #           L1: [60000, 20000, 10000]
+  #         - name: "microLlama/microLlama8"
+  #           L1: [60000, 20000, 10000]
+  #         - name: "microLlama/microLlama8_parallel"
+  #           L1: [60000, 20000, 10000]
+  #         - name: "CCT/CCT_1_32_32_8"
+  #           L1: [64000]
+  #         - name: "CCT/CCT_1_16_16_64"
+  #           L1: [64000]
+  #         - name: "CCT/CCT_1_16_16_128"
+  #           L1: [64000]
+  #       num-cores:
+  #         - 8
+  #       double-buffer:
+  #         - true
+  #       default-memory-level:
+  #         - "L3"
+  #   uses: ./.github/workflows/TestRunnerTiledSiracusa.yml
+  #   needs: select-docker-image
+  #   with:
+  #     docker-image: ${{ needs.select-docker-image.outputs.image }}
+  #     test-name: ${{ matrix.test-data.name }}
+  #     num-cores: ${{ matrix.num-cores }}
+  #     L1: ${{ toJson(matrix.test-data.L1) }}
+  #     double-buffer: ${{ matrix.double-buffer }}
+  #     default-memory-level: ${{ matrix.default-memory-level }}
 
-  siracusa-neureka-kernels-tiled-singlebuffer-L2:
-    uses: ./.github/workflows/TestRunnerTiledSiracusaWithNeurekaSequential.yml
-    needs: select-docker-image
-    with:
-      docker-image: ${{ needs.select-docker-image.outputs.image }}
-      tests-config: |
-        [
-          {
-            "name": "testRequantizedLinear",
-            "L1": [16000]
-          },
-          {
-            "name": "testPointwise",
-            "L1": [32000]
-          },
-          {
-            "name": "testPointwiseConvBNReLU",
-            "L1": [32000]
-          },
-          {
-            "name": "testPointwiseUnsignedWeights",
-            "L1": [32000]
-          }
-        ]
-      num-cores: 8
+  # siracusa-neureka-kernels-tiled-singlebuffer-L2:
+  #   uses: ./.github/workflows/TestRunnerTiledSiracusaWithNeurekaSequential.yml
+  #   needs: select-docker-image
+  #   with:
+  #     docker-image: ${{ needs.select-docker-image.outputs.image }}
+  #     tests-config: |
+  #       [
+  #         {
+  #           "name": "testRequantizedLinear",
+  #           "L1": [16000]
+  #         },
+  #         {
+  #           "name": "testPointwise",
+  #           "L1": [32000]
+  #         },
+  #         {
+  #           "name": "testPointwiseConvBNReLU",
+  #           "L1": [32000]
+  #         },
+  #         {
+  #           "name": "testPointwiseUnsignedWeights",
+  #           "L1": [32000]
+  #         }
+  #       ]
+  #     num-cores: 8
 
-  siracusa-neureka-kernels-tiled-doublebuffer-L2:
-    uses: ./.github/workflows/TestRunnerTiledSiracusaWithNeurekaSequential.yml
-    needs: select-docker-image
-    with:
-      docker-image: ${{ needs.select-docker-image.outputs.image }}
-      tests-config: |
-        [
-          {
-            "name": "testRequantizedLinear",
-            "L1": [16000]
-          },
-          {
-            "name": "testPointwise",
-            "L1": [32000]
-          },
-          {
-            "name": "testPointwiseConvBNReLU",
-            "L1": [32000]
-          },
-          {
-            "name": "testPointwiseUnsignedWeights",
-            "L1": [32000]
-          }
-        ]
-      num-cores: 8
-      double-buffer: true
+  # siracusa-neureka-kernels-tiled-doublebuffer-L2:
+  #   uses: ./.github/workflows/TestRunnerTiledSiracusaWithNeurekaSequential.yml
+  #   needs: select-docker-image
+  #   with:
+  #     docker-image: ${{ needs.select-docker-image.outputs.image }}
+  #     tests-config: |
+  #       [
+  #         {
+  #           "name": "testRequantizedLinear",
+  #           "L1": [16000]
+  #         },
+  #         {
+  #           "name": "testPointwise",
+  #           "L1": [32000]
+  #         },
+  #         {
+  #           "name": "testPointwiseConvBNReLU",
+  #           "L1": [32000]
+  #         },
+  #         {
+  #           "name": "testPointwiseUnsignedWeights",
+  #           "L1": [32000]
+  #         }
+  #       ]
+  #     num-cores: 8
+  #     double-buffer: true
 
-  siracusa-neureka-models-tiled-singlebuffer-L3:
-    strategy:
-      fail-fast: false
-      matrix:
-        test-data: 
-          - name: "miniMobileNet"
-            L1: [2000] # LMACAN: 1000 leads to non-2d transfers in L3!
-          - name: "Attention"
-            L1: [2500]
-          - name: "Transformer"
-            L1: [15000]
-          - name: "microLlama/microLlama1"
-            L1: [10000]
-        num-cores:
-          - 8
-        default-memory-level:
-          - "L3"
-    uses: ./.github/workflows/TestRunnerTiledSiracusaWithNeureka.yml
-    needs: select-docker-image
-    with:
-      docker-image: ${{ needs.select-docker-image.outputs.image }}
-      test-name: ${{ matrix.test-data.name }}
-      num-cores: ${{ matrix.num-cores }}
-      L1: ${{ toJson(matrix.test-data.L1) }}
-      default-memory-level: ${{ matrix.default-memory-level }}
+  # siracusa-neureka-models-tiled-singlebuffer-L3:
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       test-data: 
+  #         - name: "miniMobileNet"
+  #           L1: [2000] # LMACAN: 1000 leads to non-2d transfers in L3!
+  #         - name: "Attention"
+  #           L1: [2500]
+  #         - name: "Transformer"
+  #           L1: [15000]
+  #         - name: "microLlama/microLlama1"
+  #           L1: [10000]
+  #       num-cores:
+  #         - 8
+  #       default-memory-level:
+  #         - "L3"
+  #   uses: ./.github/workflows/TestRunnerTiledSiracusaWithNeureka.yml
+  #   needs: select-docker-image
+  #   with:
+  #     docker-image: ${{ needs.select-docker-image.outputs.image }}
+  #     test-name: ${{ matrix.test-data.name }}
+  #     num-cores: ${{ matrix.num-cores }}
+  #     L1: ${{ toJson(matrix.test-data.L1) }}
+  #     default-memory-level: ${{ matrix.default-memory-level }}
 
-  siracusa-neureka-models-tiled-doublebuffer-L3:
-    strategy:
-      fail-fast: false
-      matrix:
-        test-data: 
-          - name: "miniMobileNet"
-            L1: [2000] # LMACAN: 1000 leads to non-2d transfers in L3!
-          - name: "Attention"
-            L1: [5000]
-          - name: "Transformer"
-            L1: [30000]
-        num-cores:
-          - 8
-        double-buffer:
-          - true
-        default-memory-level:
-          - "L3"
-    uses: ./.github/workflows/TestRunnerTiledSiracusaWithNeureka.yml
-    needs: select-docker-image
-    with:
-      docker-image: ${{ needs.select-docker-image.outputs.image }}
-      test-name: ${{ matrix.test-data.name }}
-      num-cores: ${{ matrix.num-cores }}
-      L1: ${{ toJson(matrix.test-data.L1) }}
-      double-buffer: ${{ matrix.double-buffer }}
-      default-memory-level: ${{ matrix.default-memory-level }}
+  # siracusa-neureka-models-tiled-doublebuffer-L3:
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       test-data: 
+  #         - name: "miniMobileNet"
+  #           L1: [2000] # LMACAN: 1000 leads to non-2d transfers in L3!
+  #         - name: "Attention"
+  #           L1: [5000]
+  #         - name: "Transformer"
+  #           L1: [30000]
+  #       num-cores:
+  #         - 8
+  #       double-buffer:
+  #         - true
+  #       default-memory-level:
+  #         - "L3"
+  #   uses: ./.github/workflows/TestRunnerTiledSiracusaWithNeureka.yml
+  #   needs: select-docker-image
+  #   with:
+  #     docker-image: ${{ needs.select-docker-image.outputs.image }}
+  #     test-name: ${{ matrix.test-data.name }}
+  #     num-cores: ${{ matrix.num-cores }}
+  #     L1: ${{ toJson(matrix.test-data.L1) }}
+  #     double-buffer: ${{ matrix.double-buffer }}
+  #     default-memory-level: ${{ matrix.default-memory-level }}
 
-  siracusa-neureka-kernels-tiled-singlebuffer-L2-wmem:
-    uses: ./.github/workflows/TestRunnerTiledSiracusaWithNeurekaSequential.yml
-    needs: select-docker-image
-    with:
-      docker-image: ${{ needs.select-docker-image.outputs.image }}
-      tests-config: |
-        [
-          {
-            "name": "testRequantizedLinear",
-            "L1": [16000]
-          },
-          {
-            "name": "testPointwise",
-            "L1": [32000]
-          },
-          {
-            "name": "testPointwiseConvBNReLU",
-            "L1": [32000]
-          },
-          {
-            "name": "testPointwiseUnsignedWeights",
-            "L1": [32000]
-          }
-        ]
-      num-cores: 8
-      neureka-wmem: true
+  # siracusa-neureka-kernels-tiled-singlebuffer-L2-wmem:
+  #   uses: ./.github/workflows/TestRunnerTiledSiracusaWithNeurekaSequential.yml
+  #   needs: select-docker-image
+  #   with:
+  #     docker-image: ${{ needs.select-docker-image.outputs.image }}
+  #     tests-config: |
+  #       [
+  #         {
+  #           "name": "testRequantizedLinear",
+  #           "L1": [16000]
+  #         },
+  #         {
+  #           "name": "testPointwise",
+  #           "L1": [32000]
+  #         },
+  #         {
+  #           "name": "testPointwiseConvBNReLU",
+  #           "L1": [32000]
+  #         },
+  #         {
+  #           "name": "testPointwiseUnsignedWeights",
+  #           "L1": [32000]
+  #         }
+  #       ]
+  #     num-cores: 8
+  #     neureka-wmem: true
 
-  siracusa-neureka-models-tiled-doublebuffer-L3-wmem:
-    strategy:
-      fail-fast: false
-      matrix:
-        test-data: 
-          - name: "miniMobileNet"
-            L1: [2000] # LMACAN: 1000 leads to non-2d transfers in L3!
-          - name: "Attention"
-            L1: [2500]
-          # - name: "Transformer"
-          #   L1: [30000]
-          - name: "microLlama/microLlama1"
-            L1: [10000]
-        num-cores:
-          - 8
-        double-buffer:
-          - true
-        default-memory-level:
-          - "L3"
-        neureka-wmem:
-          - true
-    uses: ./.github/workflows/TestRunnerTiledSiracusaWithNeureka.yml
-    needs: select-docker-image
-    with:
-      docker-image: ${{ needs.select-docker-image.outputs.image }}
-      test-name: ${{ matrix.test-data.name }}
-      num-cores: ${{ matrix.num-cores }}
-      L1: ${{ toJson(matrix.test-data.L1) }}
-      double-buffer: ${{ matrix.double-buffer }}
-      default-memory-level: ${{ matrix.default-memory-level }}
-      neureka-wmem: ${{ matrix.neureka-wmem }}
+  # siracusa-neureka-models-tiled-doublebuffer-L3-wmem:
+  #   strategy:
+  #     fail-fast: false
+  #     matrix:
+  #       test-data: 
+  #         - name: "miniMobileNet"
+  #           L1: [2000] # LMACAN: 1000 leads to non-2d transfers in L3!
+  #         - name: "Attention"
+  #           L1: [2500]
+  #         # - name: "Transformer"
+  #         #   L1: [30000]
+  #         - name: "microLlama/microLlama1"
+  #           L1: [10000]
+  #       num-cores:
+  #         - 8
+  #       double-buffer:
+  #         - true
+  #       default-memory-level:
+  #         - "L3"
+  #       neureka-wmem:
+  #         - true
+  #   uses: ./.github/workflows/TestRunnerTiledSiracusaWithNeureka.yml
+  #   needs: select-docker-image
+  #   with:
+  #     docker-image: ${{ needs.select-docker-image.outputs.image }}
+  #     test-name: ${{ matrix.test-data.name }}
+  #     num-cores: ${{ matrix.num-cores }}
+  #     L1: ${{ toJson(matrix.test-data.L1) }}
+  #     double-buffer: ${{ matrix.double-buffer }}
+  #     default-memory-level: ${{ matrix.default-memory-level }}
+  #     neureka-wmem: ${{ matrix.neureka-wmem }}
 
 
   ### Deeploy Extension and Internal Tests ###
